@@ -19,7 +19,7 @@ refers to the specific instance of the object that is created and returned by th
 
 * 4. Explicit binding
 
-
+Explicit binding occurs when .call(), .apply(), or .bind() are used on a function. We intentionally bind this to an object.
 
 * write out a code example of each explanation above
 */
@@ -40,11 +40,40 @@ function sayName(name) {
 
 // code example for Implicit Binding
 
+const user = {
+    name: 'Rasha',
+    age: 40,
+    greet() {
+      alert(`Hello, my name is ${this.name}`)
+    }
+  }
+
+user.greet();
+
+
 
 // Principle 3
 
 // code example for New Binding
 
+function User (name, age) {
+    this.name = name
+    this.age = age
+}
+
+const me = new User('Rasha', 40);
+
 // Principle 4
 
 // code example for Explicit Binding
+
+function greet () {
+    alert(`Hello, my name is ${this.name}`)
+  }
+  
+  const user = {
+    name: 'Rasha',
+    age: 40,
+  }
+
+  greet.call(user);
