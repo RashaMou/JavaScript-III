@@ -21,7 +21,7 @@ function GameObject(gameDetails) {
   this.name = gameDetails.name;
   this.dimensions = gameDetails.dimensions;
 }
-
+// add method to object
 GameObject.prototype.destroy = function() {
   return `${this.name} was removed from the game.`;
 }
@@ -36,7 +36,7 @@ GameObject.prototype.destroy = function() {
 
 function CharacterStats(stats) {
   this.healthPoints = stats.healthPoints;
-  GameObject.call(this, stats);
+  GameObject.call(this, stats); // 
 }
 
 CharacterStats.prototype = Object.create(GameObject.prototype);
@@ -145,18 +145,41 @@ Humanoid.prototype.greet = function() {
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
 
-  function Villain(villianAttributes){
-    Humanoid.call(this, villianAttributes);
+  function Villain(villainAttributes){
+    Humanoid.call(this, villainAttributes);
+    this.trait = villainAttributes.trait;
   }
 
-  Villian.prototype.finishHim = function(){
-    if (Hero.healthPoints <= 0) {
-      Hero.destroy();
+  Villain.prototype = Object.create(Humanoid.prototype);
+
+  Villain.prototype.hit = function(obj){
+    obj.healthPoints = obj.healthPoints - 1;
+    console.log(obj.takeDamage());
+    console.log(`${obj.name} has ${obj.healthPoints} health`);
+  }
+
+  Villain.prototype.finishHim = function(obj){
+    if (obj.healthPoints <= 0) {
+      obj.destroy();
     }
   }
 
   function Hero(heroAttributes){
     Humanoid.call(this, heroAttributes);
+    this.trait = heroAttributes.trait;
   }
 
-  Hero.prototype = Object.create(Villian.prototype);
+  Hero.prototype = Object.create(Humanoid.prototype);
+
+  Hero.prototype.smash = function(obj){
+    obj.healthPoints = obj.healthPoints - 1;
+    console.log(obj.takeDamage());
+    console.log(`${obj.name} has ${obj.healthPoints} health`);
+  }
+
+  Hero.prototype.kill = function(obj){
+    if (obj.healthPoints <= 0) {
+      obj.destroy();
+    }
+  }
+
